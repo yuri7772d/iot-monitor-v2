@@ -1,0 +1,19 @@
+/* Scrollbar เล็ก ๆ สไตล์ GPT */
+::-webkit-scrollbar {
+  width: 6px;       /* ความกว้างของ scrollbar */
+  height: 6px;      /* ความสูงของ horizontal scrollbar */
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;  /* พื้นหลังราง scrollbar */
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: rgba(100, 100, 100, 0.5); /* สีของ thumb */
+  border-radius: 10px;       /* มุมโค้ง */
+  border: 2px solid transparent; /* ทำให้ thumb มีขอบโปร่งใส */
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(100, 100, 100, 0.8); /* สีเมื่อ hover */
+}

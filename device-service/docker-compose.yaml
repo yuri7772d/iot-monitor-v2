@@ -1,0 +1,18 @@
+version: '3.9'
+services:
+  mysql:
+    image: mysql:8.0                     # ใช้ MySQL เวอร์ชัน 8
+    container_name: mysql-container      # ชื่อ container
+    restart: always                      # ให้เริ่มใหม่อัตโนมัติถ้าล่ม
+    environment:
+      MYSQL_ROOT_PASSWORD: 1234  # รหัสผ่าน root
+      MYSQL_DATABASE: device        # ชื่อ database เริ่มต้น
+      MYSQL_USER: mysql                # ชื่อ user เพิ่มเติม
+      MYSQL_PASSWORD: 1234        # รหัสผ่านของ user
+    ports:
+      - "3306:3306"                      # map port ออกมาที่เครื่อง host
+    volumes:
+      - ./mysql_data:/var/lib/mysql      # เก็บข้อมูลไว้ในโฟลเดอร์ถาวร (ไม่หายเวลา container หยุด)
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql # (ถ้ามี) ไฟล์ SQL สำหรับ init database
+volumes:
+  mysql_data:

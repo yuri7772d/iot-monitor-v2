@@ -1,0 +1,36 @@
+version: "3.8"
+
+services:
+  emqx:
+    image: emqx/emqx:latest
+    container_name: emqx
+    restart: unless-stopped
+    ports:
+      - "1883:1883"    # MQTT
+      - "8083:8083"    # MQTT over WebSocket
+      - "18083:18083"  # Dashboard
+    environment:
+      - EMQX_DASHBOARD__DEFAULT_USER__USERNAME=admin
+      - EMQX_DASHBOARD__DEFAULT_USER__PASSWORD=public
+      - EMQX_ALLOW_ANONYMOUS=true   # อนุญาตให้ client เชื่อมโดยไม่ต้อง login
+    networks:
+      - iot-net
+
+  nodered:
+    image: nodered/node-red:latest
+    container_name: nodered
+    restart: unless-stopped
+    ports:
+      - "1880:1880"  # Node-RED Web UI
+    volumes:
+      - ./nodered_data:/data
+    environment:
+      - TZ=Asia/Bangkok
+    depends_on:
+      - emqx
+    networks:
+      - iot-net
+
+networks:
+  iot-net:
+    driver: bridge

@@ -1,0 +1,12 @@
+# Node / Front-end
+node_modules/
+dist/
+.env
+
+# MySQL data
+device-service/mysql_data/
+*.sock
+*.pid
+
+# Logs
+*.log
