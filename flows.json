@@ -1,0 +1,617 @@
+[
+    {
+        "id": "2cdc1cad0c916a67",
+        "type": "tab",
+        "label": "Flow 1",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "1bea2347aecbcf91",
+        "type": "mqtt-broker",
+        "name": "",
+        "broker": "emqx",
+        "port": 1883,
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": 4,
+        "keepalive": 60,
+        "cleansession": true,
+        "autoUnsubscribe": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthRetain": "false",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closeRetain": "false",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willRetain": "false",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "c3386a381cf5773e",
+        "type": "ui-base",
+        "name": "My Dashboard",
+        "path": "/dashboard",
+        "appIcon": "",
+        "includeClientData": true,
+        "acceptsClientConfig": [
+            "ui-notification",
+            "ui-control"
+        ],
+        "showPathInSidebar": false,
+        "headerContent": "page",
+        "navigationStyle": "default",
+        "titleBarStyle": "default",
+        "showReconnectNotification": true,
+        "notificationDisplayTime": 1,
+        "showDisconnectNotification": true,
+        "allowInstall": false
+    },
+    {
+        "id": "2a31d4f12e5a62c6",
+        "type": "ui-theme",
+        "name": "Default Theme",
+        "colors": {
+            "surface": "#ffffff",
+            "primary": "#0094CE",
+            "bgPage": "#eeeeee",
+            "groupBg": "#ffffff",
+            "groupOutline": "#cccccc"
+        },
+        "sizes": {
+            "density": "default",
+            "pagePadding": "12px",
+            "groupGap": "12px",
+            "groupBorderRadius": "4px",
+            "widgetGap": "12px"
+        }
+    },
+    {
+        "id": "c0bf394728254878",
+        "type": "ui-page",
+        "name": "Page 1",
+        "ui": "c3386a381cf5773e",
+        "path": "/page1",
+        "icon": "home",
+        "layout": "grid",
+        "theme": "2a31d4f12e5a62c6",
+        "breakpoints": [
+            {
+                "name": "Default",
+                "px": 0,
+                "cols": 3
+            },
+            {
+                "name": "Tablet",
+                "px": 576,
+                "cols": 6
+            },
+            {
+                "name": "Small Desktop",
+                "px": 768,
+                "cols": 9
+            },
+            {
+                "name": "Desktop",
+                "px": 1024,
+                "cols": 12
+            }
+        ],
+        "order": 1,
+        "className": "",
+        "visible": "true",
+        "disabled": "false"
+    },
+    {
+        "id": "3dc70d99393e2277",
+        "type": "ui-group",
+        "name": "Group 1",
+        "page": "c0bf394728254878",
+        "width": 6,
+        "height": 1,
+        "order": 1,
+        "showTitle": true,
+        "className": "",
+        "visible": true,
+        "disabled": false,
+        "groupType": "default"
+    },
+    {
+        "id": "d643c06d1c6cbdd7",
+        "type": "mqtt out",
+        "z": "2cdc1cad0c916a67",
+        "name": "",
+        "topic": "test/topic",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "1bea2347aecbcf91",
+        "x": 620,
+        "y": 360,
+        "wires": []
+    },
+    {
+        "id": "b3d6a14a04467f1d",
+        "type": "inject",
+        "z": "2cdc1cad0c916a67",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "2",
+        "payloadType": "num",
+        "x": 210,
+        "y": 360,
+        "wires": [
+            [
+                "eb4c3aa3d7868420"
+            ]
+        ]
+    },
+    {
+        "id": "fcdefb2db88fca60",
+        "type": "mqtt in",
+        "z": "2cdc1cad0c916a67",
+        "name": "",
+        "topic": "test/topic",
+        "qos": "0",
+        "datatype": "auto-detect",
+        "broker": "1bea2347aecbcf91",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 200,
+        "y": 100,
+        "wires": [
+            [
+                "e50958eb32868b68"
+            ]
+        ]
+    },
+    {
+        "id": "e50958eb32868b68",
+        "type": "function",
+        "z": "2cdc1cad0c916a67",
+        "name": "set",
+        "func": "let devices = flow.get(\"devices\") || {};\n\nconst {id,temp} = msg.payload;\n\nif (id){\ndevices[id] = {\n  lastActive: Date.now(),\n  temp: temp\n   };\nflow.set(\"devices\", devices);\n};\n\n\n\nmsg.payload = devices;\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 430,
+        "y": 100,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "5c047bdc210b8240",
+        "type": "mqtt out",
+        "z": "2cdc1cad0c916a67",
+        "name": "",
+        "topic": "test/topic",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "1bea2347aecbcf91",
+        "x": 620,
+        "y": 420,
+        "wires": []
+    },
+    {
+        "id": "7ad2445f0597f960",
+        "type": "inject",
+        "z": "2cdc1cad0c916a67",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "4",
+        "payloadType": "num",
+        "x": 210,
+        "y": 420,
+        "wires": [
+            [
+                "c57346a43ffbe80f"
+            ]
+        ]
+    },
+    {
+        "id": "b8b7aee119b03173",
+        "type": "mqtt out",
+        "z": "2cdc1cad0c916a67",
+        "name": "",
+        "topic": "test/topic",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "1bea2347aecbcf91",
+        "x": 620,
+        "y": 480,
+        "wires": []
+    },
+    {
+        "id": "f186bb62e0e99cc3",
+        "type": "inject",
+        "z": "2cdc1cad0c916a67",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "5",
+        "payloadType": "str",
+        "x": 210,
+        "y": 480,
+        "wires": [
+            [
+                "a7819ed9b8071c6e"
+            ]
+        ]
+    },
+    {
+        "id": "80c1fc88d4e413cf",
+        "type": "mqtt out",
+        "z": "2cdc1cad0c916a67",
+        "name": "",
+        "topic": "test/topic",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "1bea2347aecbcf91",
+        "x": 620,
+        "y": 540,
+        "wires": []
+    },
+    {
+        "id": "871862981fa5023c",
+        "type": "inject",
+        "z": "2cdc1cad0c916a67",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "6",
+        "payloadType": "str",
+        "x": 210,
+        "y": 540,
+        "wires": [
+            [
+                "7d9de2e13e1743cc"
+            ]
+        ]
+    },
+    {
+        "id": "cb0b40d578d09d49",
+        "type": "function",
+        "z": "2cdc1cad0c916a67",
+        "name": "delete",
+        "func": "const devices = flow.get(\"devices\") || {};\nlet updateDevice = {};\nfor (const key in devices) {\n const device =devices[key]\n const diff = Date.now() - device.lastActive;\n if(diff >5000){\n  continue ;\n }\n updateDevice[key]=devices[key];\n}\nflow.set(\"devices\", updateDevice);\n\n\n\nmsg.payload = updateDevice;\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 430,
+        "y": 180,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "ac95bf158657df9b",
+        "type": "inject",
+        "z": "2cdc1cad0c916a67",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "5",
+        "crontab": "",
+        "once": false,
+        "onceDelay": "10",
+        "topic": "",
+        "payload": "",
+        "payloadType": "str",
+        "x": 210,
+        "y": 180,
+        "wires": [
+            [
+                "cb0b40d578d09d49"
+            ]
+        ]
+    },
+    {
+        "id": "0dd04cf248b54eec",
+        "type": "function",
+        "z": "2cdc1cad0c916a67",
+        "name": "opject_to_json",
+        "func": "const obDevices = flow.get(\"devices\") || {};\n\nlet jsonDevics =[] ;\n\nfor (const key in obDevices) {\n   const obDevice =obDevices[key];\n   jsonDevics.push({\n    \"id\":key,\n    \"temp\":obDevice.temp,\n    \"lastActive\":obDevice.lastActive\n   })\n\n}\nmsg.payload = jsonDevics;\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 420,
+        "y": 240,
+        "wires": [
+            [
+                "71319a9da069ecf3"
+            ]
+        ]
+    },
+    {
+        "id": "71319a9da069ecf3",
+        "type": "ui-table",
+        "z": "2cdc1cad0c916a67",
+        "group": "3dc70d99393e2277",
+        "name": "",
+        "label": "online device",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "maxrows": 0,
+        "passthru": false,
+        "autocols": true,
+        "showSearch": false,
+        "deselect": true,
+        "selectionType": "none",
+        "columns": [],
+        "mobileBreakpoint": "sm",
+        "mobileBreakpointType": "defaults",
+        "action": "replace",
+        "className": "",
+        "x": 630,
+        "y": 240,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "4c7ff1bf6da3462c",
+        "type": "inject",
+        "z": "2cdc1cad0c916a67",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "1",
+        "crontab": "",
+        "once": false,
+        "onceDelay": "10",
+        "topic": "",
+        "payload": "",
+        "payloadType": "str",
+        "x": 210,
+        "y": 240,
+        "wires": [
+            [
+                "0dd04cf248b54eec"
+            ]
+        ]
+    },
+    {
+        "id": "eb4c3aa3d7868420",
+        "type": "function",
+        "z": "2cdc1cad0c916a67",
+        "name": "rendom temp",
+        "func": "const id = msg.payload ;\n\nconst temp = Math.floor(Math.random() * 50);\nmsg.payload = {\n  \"id\": id,\n  \"temp\": temp\n}\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 410,
+        "y": 360,
+        "wires": [
+            [
+                "d643c06d1c6cbdd7"
+            ]
+        ]
+    },
+    {
+        "id": "a7819ed9b8071c6e",
+        "type": "function",
+        "z": "2cdc1cad0c916a67",
+        "name": "rendom temp",
+        "func": "const id = msg.payload ;\nconst temp = Math.floor(Math.random() * 50);\nmsg.payload = {\n  \"id\": id,\n  \"temp\": temp\n}\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 410,
+        "y": 480,
+        "wires": [
+            [
+                "b8b7aee119b03173"
+            ]
+        ]
+    },
+    {
+        "id": "7d9de2e13e1743cc",
+        "type": "function",
+        "z": "2cdc1cad0c916a67",
+        "name": "rendom temp",
+        "func": "const id = msg.payload ;\nconst temp = Math.floor(Math.random() * 50);\nmsg.payload = {\n  \"id\": id,\n  \"temp\": temp\n}\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 410,
+        "y": 540,
+        "wires": [
+            [
+                "80c1fc88d4e413cf"
+            ]
+        ]
+    },
+    {
+        "id": "c57346a43ffbe80f",
+        "type": "function",
+        "z": "2cdc1cad0c916a67",
+        "name": "rendom temp",
+        "func": "const id = msg.payload ;\nconst temp = Math.floor(Math.random() * 50);\nmsg.payload = {\n  \"id\": id,\n  \"temp\": temp\n}\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 410,
+        "y": 420,
+        "wires": [
+            [
+                "5c047bdc210b8240"
+            ]
+        ]
+    },
+    {
+        "id": "913f8916ad508351",
+        "type": "http in",
+        "z": "2cdc1cad0c916a67",
+        "name": "",
+        "url": "/tempByIds",
+        "method": "get",
+        "upload": false,
+        "skipBodyParsing": false,
+        "swaggerDoc": "",
+        "x": 220,
+        "y": 40,
+        "wires": [
+            [
+                "4707d5dbced728ec"
+            ]
+        ]
+    },
+    {
+        "id": "4707d5dbced728ec",
+        "type": "function",
+        "z": "2cdc1cad0c916a67",
+        "name": "function 1",
+        "func": "// ดึง query parameter\nlet ids = msg.req.query.ids; // ได้ string เช่น \"2,3,4\"\n\nif (!ids) {\n    msg.statusCode = 400;\n    msg.payload = { error: \"Missing ids\" };\n    return msg;\n}\n\n// แปลงเป็น array ของตัวเลข\nids = ids.split(',').map(Number);\n\nconst devices = flow.get(\"devices\") || {};\nlet res = [];\n\nfor (const key in ids) {\n    const id = ids[key]\n    const device = devices[id];\n    if(device){\n        res.push({\n            \"id\":id,\n            \"lastActive\":device.lastActive,\n            \"temp\":device.temp,\n            \"online\":true\n        })\n    }else{\n        res.push({\n            \"id\":id,\n            \"online\":false\n        })\n    }\n}\nmsg.statusCode = 200;\nmsg.payload = res ;\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 420,
+        "y": 40,
+        "wires": [
+            [
+                "f3aaac2105d57893"
+            ]
+        ]
+    },
+    {
+        "id": "f3aaac2105d57893",
+        "type": "http response",
+        "z": "2cdc1cad0c916a67",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 610,
+        "y": 40,
+        "wires": []
+    },
+    {
+        "id": "b10c68bb86a6a0f9",
+        "type": "global-config",
+        "env": [],
+        "modules": {
+            "@flowfuse/node-red-dashboard": "1.29.0"
+        }
+    }
+]
